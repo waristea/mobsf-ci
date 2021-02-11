@@ -1,0 +1,26 @@
+image:
+  name: ruby
+variables:
+  GIT_DEPTH: 0 # Tells git to fetch all the branches of the project, required by the analysis task
+
+connect:
+  image: ruby
+  stage: sast
+  services:
+  - name: opensecurity/mobile-security-framework-mobsf
+    alias: mobsf
+  variables:
+    MOBSF_API_KEY: 12345
+  script:
+    - git clone https://yourgitrepourl.git
+    - export MOBSF_KEY=12345
+    - export MOBSF_URL=http://mobsf:8000/
+    - export TARGET_PATH=$(echo $(pwd)/apkname.apk)
+    - export REPORT_PATH=$(echo $(pwd)/mobsf-ci-cli/output/report.json)
+    - cd mobsf-ci-cli
+    - gem install bundler
+    - bundle install
+    - mkdir output
+    - touch output/report.json
+    - ruby scan.rb
+    - curl --request POST "yourdojourl" --header "Authorization:Token yourdojotoken" --header "Content-Type:multipart/form-data" --form 'scan_type=MobSF Scan' --form "engagement=1" --form "scan_date=2021-02-02" --form 'minimum_severity=Info' --form 'active=' --form 'verified=' --form "file=@$(echo $REPORT_PATH)"
