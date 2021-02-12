@@ -12,7 +12,7 @@ connect:
   variables:
     MOBSF_API_KEY: 12345
   script:
-    - git clone https://yourgitrepourl.git
+    - git clone https://github.com/waristea/mobsf-ci.git
     - export MOBSF_KEY=12345
     - export MOBSF_URL=http://mobsf:8000/
     - export TARGET_PATH=$(echo $(pwd)/apkname.apk)
@@ -23,4 +23,4 @@ connect:
     - mkdir output
     - touch output/report.json
     - ruby scan.rb
-    - curl --request POST "yourdojourl" --header "Authorization:Token yourdojotoken" --header "Content-Type:multipart/form-data" --form 'scan_type=MobSF Scan' --form "engagement=1" --form "scan_date=2021-02-02" --form 'minimum_severity=Info' --form 'active=' --form 'verified=' --form "file=@$(echo $REPORT_PATH)"
+    - curl --request POST "YOURDOJOURL" --header "Authorization:Token YOURDOJOTOKEN" --header "Content-Type:multipart/form-data" --form 'scan_type=MobSF Scan' --form "engagement=31" --form "scan_date=2021-02-02" --form 'minimum_severity=Info' --form 'active=' --form 'verified=' --form "file=@$(echo $REPORT_PATH)"
